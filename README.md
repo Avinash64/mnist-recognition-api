@@ -68,7 +68,7 @@ plt.ylabel('Truth')
 ```
 
 
-![heatmap]([https://github.com/Avinash64/mnist-recognition-api/blob/master/Pasted%20image%2020230922150048.png?raw=true)
+![heatmap](https://github.com/Avinash64/mnist-recognition-api/blob/master/Pasted%20image%2020230922150048.png?raw=true)
 
 Everything looks good so now it's time to save and export the model
 ```python
