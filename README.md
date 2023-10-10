@@ -69,7 +69,7 @@ plt.ylabel('Truth')
 ```
 
 
-![heatmap](https://github.com/Avinash64/mnist-recognition-api/blob/master/Pasted%20image%2020230922150048.png?raw=true)
+![heatmap](https://github.com/Avinash64/mnist-recognition-api/blob/master/images/heatmap.png?raw=true)
 
 Everything looks good so now it's time to save and export the model
 ```python
@@ -230,8 +230,8 @@ Now lets test it out. To make it easier I created an html page with a 28 x 28 ca
 ```
 
 
-![[Pasted image 20230922154159.png]]
+![heatmap](https://github.com/Avinash64/mnist-recognition-api/blob/master/images/example1.png?raw=true)
 
-![[Pasted image 20230922154219.png]]
+![heatmap](https://github.com/Avinash64/mnist-recognition-api/blob/master/images/example2.png?raw=true)
 
-![[Pasted image 20230922154236.png]]
+![heatmap](https://github.com/Avinash64/mnist-recognition-api/blob/master/images/example3.png?raw=true)
