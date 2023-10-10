@@ -9,11 +9,12 @@ The first part of training on any dataset is getting cleaning up the data and ge
 
 Let's start by importing the required modules
 ```python
-#training.py
+#train_model.py
 import tensorflow as tf
 from tensorflow import keras
 import numpy as np
 import seaborn as sn
+import matplotlib.pyplot as plt
 ```
 
 Tensorflow's keras already comes with the MNIST dataset split into training and test data so to import it as a numpy array we just need to do the following
