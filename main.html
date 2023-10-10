@@ -6,15 +6,55 @@
     <title>Pixel Drawing Canvas</title>
     <style>
         canvas {
-            border: 1px solid black;
-            cursor: crosshair; /* Optional: Change cursor to crosshair for drawing */
+            border: 1px solid rgb(255, 255, 255);
+            cursor: crosshair; 
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+            height: 100%;
+            text-align: center;
+        }
+
+        .page{
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            height: 100%;
+            width: 100%;
+            align-items: center;
+        }
+
+        .recognize{
+            width: 50%;
+            height: 50px;
+            background-color: blue;
+            color: white;
+        }
+        .clear{
+            width: 50%;
+            height: 50px;
+            background-color: rgb(197, 107, 97);
+            color: white;
         }
     </style>
 </head>
 <body>
-    <canvas id="pixelCanvas" width="280" height="280"></canvas>
-    <button onclick="getCanvasData()">Get Canvas Data</button>
-    <h1 id="prediction"></h1>
+
+    <div class="page">
+        <canvas id="pixelCanvas" width="280" height="280"></canvas>
+        <h1 id="prediction">Draw a digit above and click recognize</h1>
+        <button class="recognize" onclick="getCanvasData()">Recognize</button>
+        <button class="clear" onclick="clearCanvas()">Reset</button>
+    </div>
+
+
+
     <script>
         const canvas = document.getElementById('pixelCanvas');
         const ctx = canvas.getContext('2d');
@@ -23,7 +63,20 @@
 
         canvas.addEventListener('mousedown', startDrawing);
         canvas.addEventListener('mouseup', stopDrawing);
-        canvas.addEventListener('mousemove', drawPixel);
+        canvas.addEventListener('mousemove', drawPixel);canvas.addEventListener('touchstart', function(event) {
+            event.preventDefault();
+            startDrawing();
+        });
+        
+        canvas.addEventListener('touchmove', function(event) {
+            event.preventDefault();
+            drawPixel(event.touches[0]);
+        });
+        
+        canvas.addEventListener('touchend', function(event) {
+            event.preventDefault();
+            stopDrawing();
+        });
 
         function startDrawing() {
             isDrawing = true;
@@ -41,7 +94,7 @@
                 const x = Math.floor((event.clientX - rect.left) / (canvas.width / 28));
                 const y = Math.floor((event.clientY - rect.top) / (canvas.height / 28));
 
-                ctx.fillStyle = 'black';
+                ctx.fillStyle = 'white';
                 ctx.fillRect(x * (canvas.width / 28), y * (canvas.height / 28), canvas.width / 28, canvas.height / 28);
             }
         }
@@ -53,13 +106,19 @@
                 const row = [];
                 for (let x = 0; x < 28; x++) {
                     const imageData = ctx.getImageData(x * 10, y * 10, 1, 1).data;
-                    const isBlack = imageData[0] === 0 && imageData[1] === 0 && imageData[2] === 0 && imageData[3] !== 0;
-                    row.push(isBlack ? 1 : 0);
+                    const isWhite = imageData[0] === 255 && imageData[1] === 255 && imageData[2] === 255 && imageData[3] !== 0;
+                    row.push(isWhite ? 1 : 0);
                 }
                 pixelArray.push(row);
             }
             postPrediction(pixelArray);
             console.log(pixelArray);
+        }
+
+        function clearCanvas() {
+            ctx.fillStyle = 'black';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            document.getElementById("prediction").innerHTML = "Draw a digit above and click recognize";
         }
         
         function postPrediction(data) {

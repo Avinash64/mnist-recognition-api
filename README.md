@@ -156,7 +156,7 @@ Now lets test it out. To make it easier I created an html page with a 28 x 28 ca
     <style>
         canvas {
             border: 1px solid black;
-            cursor: crosshair; /* Optional: Change cursor to crosshair for drawing */
+            cursor: crosshair; 
         }
     </style>
 </head>
