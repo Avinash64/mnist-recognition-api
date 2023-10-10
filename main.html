@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pixel Drawing Canvas</title>
+    <style>
+        canvas {
+            border: 1px solid black;
+            cursor: crosshair; /* Optional: Change cursor to crosshair for drawing */
+        }
+    </style>
+</head>
+<body>
+    <canvas id="pixelCanvas" width="280" height="280"></canvas>
+    <button onclick="getCanvasData()">Get Canvas Data</button>
+    <script>
+        const canvas = document.getElementById('pixelCanvas');
+        const ctx = canvas.getContext('2d');
+  
+        let isDrawing = false;
+  
+        canvas.addEventListener('mousedown', startDrawing);
+        canvas.addEventListener('mouseup', stopDrawing);
+        canvas.addEventListener('mousemove', drawPixel);
+  
+        function startDrawing() {
+            isDrawing = true;
+            drawPixel(event);
+        }
+  
+        function stopDrawing() {
+            isDrawing = false;
+            ctx.beginPath();
+        }
+  
+        function drawPixel(event) {
+            if (isDrawing) {
+                const rect = canvas.getBoundingClientRect();
+                const x = Math.floor((event.clientX - rect.left) / (canvas.width / 28));
+                const y = Math.floor((event.clientY - rect.top) / (canvas.height / 28));
+  
+                ctx.fillStyle = 'black';
+                ctx.fillRect(x * (canvas.width / 28), y * (canvas.height / 28), canvas.width / 28, canvas.height / 28);
+            }
+        }
+  
+        function getCanvasData() {
+            const pixelArray = [];
+            for (let y = 0; y < 28; y++) {
+                const row = [];
+                for (let x = 0; x < 28; x++) {
+                    const imageData = ctx.getImageData(x * 10, y * 10, 1, 1).data;
+                    const isBlack = imageData[0] === 0 && imageData[1] === 0 && imageData[2] === 0 && imageData[3] !== 0;
+                    row.push(isBlack ? 1 : 0);
+                }
+                pixelArray.push(row);
+            }
+            postPrediction(pixelArray);
+            console.log(pixelArray);
+        }
+        function postPrediction(data) {
+            fetch('http://127.0.0.1:8000/predict', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ data }),
+            })
+            .then(response => response.json())
+            .then(result => {
+                console.log('Post Response:', result);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
