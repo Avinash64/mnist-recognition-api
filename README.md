@@ -235,3 +235,5 @@ Now lets test it out. To make it easier I created an html page with a 28 x 28 ca
 ![heatmap](https://github.com/Avinash64/mnist-recognition-api/blob/master/images/example2.png?raw=true)
 
 ![heatmap](https://github.com/Avinash64/mnist-recognition-api/blob/master/images/example3.png?raw=true)
+
+Looks good! That's how easy it is to deploy trained model using tensorflow and fastAPI!
